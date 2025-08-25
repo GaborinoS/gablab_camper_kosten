@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camper Kosten-Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .display-4 {
+            font-weight: 300;
+            color: #0d6efd;
+        }
+
+        .lead {
+            color: #6c757d;
+        }
+
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+            transform: translateY(-1px);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .schuld-card {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .ausgabe-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .ausgabe-item:last-child {
+            border-bottom: none;
+        }
+
+        .kategorie-badge {
+            background: #0d6efd;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .anteil-controls {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .anteil-slider {
+            width: 100%;
+        }
+
+        .anteil-display {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-rv me-2"></i>
+                Camper Kosten-Tracker
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4">Camper Ausbau Budget</h1>
+            <p class="lead">Gabsi & Sabi's Ausgaben-Verwaltung</p>
+        </div>
+        
+        <!-- Statistiken -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-number text-primary">€{{ "%.2f"|format(schulden.gesamt_ausgaben) }}</div>
+                        <div class="stat-label">Gesamt Ausgaben</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-number text-info">€{{ "%.2f"|format(schulden.gabsi_bezahlt) }}</div>
+                        <div class="stat-label">Gabsi bezahlt</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="stat-number text-warning">€{{ "%.2f"|format(schulden.sabi_bezahlt) }}</div>
+                        <div class="stat-label">Sabi bezahlt</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card schuld-card">
+                    <div class="card-body">
+                        <div class="stat-number">€{{ "%.2f"|format(schulden.schuld.betrag) }}</div>
+                        <div class="stat-label">{{ schulden.schuld.schuldner }} schuldet {{ schulden.schuld.glaeubiger }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Eingabeformular -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Neue Ausgabe hinzufügen</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/neue_ausgabe">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="datum" class="form-label">Datum:</label>
+                            <input type="date" class="form-control" id="datum" name="datum" required value="{{ heute }}">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="bezahlt_von" class="form-label">Bezahlt von:</label>
+                            <select class="form-select" id="bezahlt_von" name="bezahlt_von" required>
+                                <option value="">Wählen...</option>
+                                <option value="Gabsi">Gabsi</option>
+                                <option value="Sabi">Sabi</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="betrag" class="form-label">Betrag (€):</label>
+                            <input type="number" step="0.01" class="form-control" id="betrag" name="betrag" required placeholder="0.00">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="kategorie" class="form-label">Kategorie:</label>
+                            <select class="form-select" id="kategorie" name="kategorie" required>
+                                <option value="">Kategorie wählen...</option>
+                                {% for kat in kategorie_liste %}
+                                <option value="{{ kat }}">{{ kat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="beschreibung" class="form-label">Beschreibung:</label>
+                            <textarea class="form-control" id="beschreibung" name="beschreibung" rows="3" required placeholder="Was wurde gekauft?"></textarea>
+                        </div>
+                        
+                        <!-- Anpassbare Aufteilung -->
+                        <div class="col-12 mb-3">
+                            <div class="anteil-controls">
+                                <label class="form-label">Kostenaufteilung anpassen:</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="gabsi_anteil" class="form-label">Gabsi Anteil (%):</label>
+                                        <input type="range" class="form-range anteil-slider" id="gabsi_anteil" name="gabsi_anteil" 
+                                               min="0" max="100" value="{{ gabsi_default }}" oninput="updateAnteile()">
+                                        <div class="anteil-display" id="gabsi_display">{{ gabsi_default }}%</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="sabi_anteil" class="form-label">Sabi Anteil (%):</label>
+                                        <input type="range" class="form-range anteil-slider" id="sabi_anteil" name="sabi_anteil" 
+                                               min="0" max="100" value="{{ sabi_default }}" oninput="updateAnteile()">
+                                        <div class="anteil-display" id="sabi_display">{{ sabi_default }}%</div>
+                                    </div>
+                                </div>
+                                <small class="text-muted">Standard: Gabsi 60%, Sabi 40%</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Ausgabe speichern
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Charts -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="card chart-container">
+                    <div class="card-header">
+                        <h5 class="mb-0">Ausgaben nach Kategorien</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="kategorienChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <div class="card chart-container">
+                    <div class="card-header">
+                        <h5 class="mb-0">Bezahlt von</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="personenChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ausgabenliste -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">
+                    <i class="fas fa-list me-2"></i>
+                    Alle Ausgaben ({{ ausgaben|length }} Einträge)
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if ausgaben %}
+                    {% for ausgabe in ausgaben|reverse %}
+                    <div class="ausgabe-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <small class="text-muted">{{ ausgabe.datum }}</small>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ ausgabe.beschreibung }}</strong><br>
+                                <small class="text-muted">von {{ ausgabe.bezahlt_von }}</small>
+                                {% if ausgabe.gabsi_anteil != gabsi_default or ausgabe.sabi_anteil != sabi_default %}
+                                <br><small class="text-info">Aufteilung: {{ ausgabe.gabsi_anteil }}% / {{ ausgabe.sabi_anteil }}%</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-2">
+                                <span class="kategorie-badge">{{ ausgabe.kategorie }}</span>
+                            </div>
+                            <div class="col-md-2">
+                                <strong class="text-success">€{{ "%.2f"|format(ausgabe.betrag) }}</strong>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <button class="btn btn-outline-danger btn-sm" 
+                                        onclick="if(confirm('Ausgabe löschen?')) window.location.href='/loeschen/{{ ausgabe.id }}'">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Noch keine Ausgaben vorhanden. Fügt eure erste Ausgabe hinzu!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <footer class="mt-5 py-4 bg-light border-top">
+        <div class="container text-center">
+            <p class="text-muted mb-0">Camper Kosten-Tracker - Gabsi & Sabi</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Aufteilungs-Slider synchronisieren
+        function updateAnteile() {
+            const gabsiSlider = document.getElementById('gabsi_anteil');
+            const sabiSlider = document.getElementById('sabi_anteil');
+            const gabsiDisplay = document.getElementById('gabsi_display');
+            const sabiDisplay = document.getElementById('sabi_display');
+            
+            const gabsiWert = parseInt(gabsiSlider.value);
+            const sabiWert = 100 - gabsiWert;
+            
+            sabiSlider.value = sabiWert;
+            gabsiDisplay.textContent = gabsiWert + '%';
+            sabiDisplay.textContent = sabiWert + '%';
+        }
+        
+        // Sabi-Slider umgekehrt synchronisieren
+        document.getElementById('sabi_anteil').addEventListener('input', function() {
+            const sabiWert = parseInt(this.value);
+            const gabsiWert = 100 - sabiWert;
+            
+            document.getElementById('gabsi_anteil').value = gabsiWert;
+            document.getElementById('gabsi_display').textContent = gabsiWert + '%';
+            document.getElementById('sabi_display').textContent = sabiWert + '%';
+        });
+        
+        // Charts laden
+        fetch('/api/chart_data')
+            .then(response => response.json())
+            .then(data => {
+                // Kategorien Chart
+                const kategorienCtx = document.getElementById('kategorienChart').getContext('2d');
+                new Chart(kategorienCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(data.kategorien),
+                        datasets: [{
+                            data: Object.values(data.kategorien),
+                            backgroundColor: [
+                                '#0d6efd', '#6f42c1', '#d63384', '#dc3545', 
+                                '#fd7e14', '#ffc107', '#198754', '#20c997',
+                                '#0dcaf0', '#6c757d', '#f8f9fa', '#212529'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+                
+                // Personen Chart
+                const personenCtx = document.getElementById('personenChart').getContext('2d');
+                new Chart(personenCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(data.bezahlt_von),
+                        datasets: [{
+                            data: Object.values(data.bezahlt_von),
+                            backgroundColor: ['#0d6efd', '#6f42c1']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
