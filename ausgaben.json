@@ -1,1 +1,102 @@
-[]
+[
+  {
+    "id": 1,
+    "datum": "2025-08-25",
+    "beschreibung": "Öl und Filter",
+    "betrag": 59.77,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 2,
+    "datum": "2025-08-25",
+    "beschreibung": "Baustrahler",
+    "betrag": 35.0,
+    "kategorie": "Werkzeug",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 3,
+    "datum": "2025-08-23",
+    "beschreibung": "Putzzeug Aktion",
+    "betrag": 20.0,
+    "kategorie": "Putzmittel",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 5,
+    "datum": "2025-08-25",
+    "beschreibung": "Autobahn Pickerl",
+    "betrag": 12.4,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 6,
+    "datum": "2025-08-25",
+    "beschreibung": "Rostschutz, wachs, plastik stoppel set und rostentferner",
+    "betrag": 106.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 7,
+    "datum": "2025-08-25",
+    "beschreibung": "Zwingen, gurte, draht aufsätze, lack innen",
+    "betrag": 18.0,
+    "kategorie": "Sonstiges",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 8,
+    "datum": "2025-08-27",
+    "beschreibung": "Abgaspickerl",
+    "betrag": 60.0,
+    "kategorie": "Sonstiges",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 9,
+    "datum": "2025-08-28",
+    "beschreibung": "Strafe Umweltplakette 🥲",
+    "betrag": 220.0,
+    "kategorie": "Sonstiges",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 10,
+    "datum": "2025-08-30",
+    "beschreibung": "OSB platten, xps platten, holzleisten, pu schaum entferner",
+    "betrag": 155.0,
+    "kategorie": "Isolation & Dämmung",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 11,
+    "datum": "2025-09-05",
+    "beschreibung": "Neue Windschutzscheibe",
+    "betrag": 410.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  }
+]
