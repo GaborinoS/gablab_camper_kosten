@@ -1,10 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, flash
 from datetime import datetime
+from functools import wraps
 import json
 import os
+import shutil
 
 # Flask-App mit Subpfad konfigurieren
 app = Flask(__name__)
+app.secret_key = '123456789'  # WICHTIG: Ändern!
+
+# Login-Daten (später in Config-Datei auslagern)
+USERNAME = 'mausihausi'
+PASSWORD = 'iloveyou'  # WICHTIG: Passwort ändern!
 
 # Konfiguration für Subpfad
 class ReverseProxied(object):
@@ -57,6 +64,16 @@ KATEGORIEN = [
 
 # Datei für persistente Speicherung
 DATA_FILE = 'ausgaben.json'
+BACKUP_DIR = 'backups'  # Nicht über Web erreichbar
+
+# Login-Decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 def load_data():
     """Lädt Ausgaben aus der JSON-Datei"""
@@ -72,6 +89,19 @@ def save_data(ausgaben):
     """Speichert Ausgaben in die JSON-Datei"""
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(ausgaben, f, ensure_ascii=False, indent=2)
+
+def create_backup():
+    """Erstellt eine Sicherheitskopie der Daten"""
+    if not os.path.exists(BACKUP_DIR):
+        os.makedirs(BACKUP_DIR)
+    
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    backup_file = os.path.join(BACKUP_DIR, f'ausgaben_backup_{timestamp}.json')
+    
+    if os.path.exists(DATA_FILE):
+        shutil.copy2(DATA_FILE, backup_file)
+        return True, f"Backup erstellt: {timestamp}"
+    return False, "Keine Daten zum Sichern vorhanden"
 
 def berechne_schulden(ausgaben):
     """Berechnet wer wem wieviel schuldet basierend auf individuellen Aufteilungen"""
@@ -123,7 +153,32 @@ def berechne_schulden(ausgaben):
         'schuld': schuld_info
     }
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login-Seite"""
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        if username == USERNAME and password == PASSWORD:
+            session['logged_in'] = True
+            session['username'] = username
+            flash('Erfolgreich eingeloggt!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Falscher Benutzername oder Passwort!', 'danger')
+    
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    """Logout"""
+    session.clear()
+    flash('Erfolgreich ausgeloggt!', 'info')
+    return redirect(url_for('login'))
+
 @app.route('/')
+@login_required
 def index():
     """Hauptseite mit Übersicht"""
     ausgaben = load_data()
@@ -150,6 +205,7 @@ def index():
                          sabi_default=SABI_ANTEIL_DEFAULT)
 
 @app.route('/neue_ausgabe', methods=['POST'])
+@login_required
 def neue_ausgabe():
     """Neue Ausgabe hinzufügen"""
     ausgaben = load_data()
@@ -170,18 +226,33 @@ def neue_ausgabe():
     
     ausgaben.append(neue_ausgabe)
     save_data(ausgaben)
+    flash('Ausgabe gespeichert!', 'success')
     
     return redirect(url_for('index'))
 
 @app.route('/loeschen/<int:ausgabe_id>')
+@login_required
 def loeschen(ausgabe_id):
     """Ausgabe löschen"""
     ausgaben = load_data()
     ausgaben = [a for a in ausgaben if a['id'] != ausgabe_id]
     save_data(ausgaben)
+    flash('Ausgabe gelöscht!', 'warning')
+    return redirect(url_for('index'))
+
+@app.route('/backup')
+@login_required
+def backup():
+    """Erstellt ein Backup"""
+    success, message = create_backup()
+    if success:
+        flash(message, 'success')
+    else:
+        flash(message, 'warning')
     return redirect(url_for('index'))
 
 @app.route('/api/chart_data')
+@login_required
 def chart_data():
     """API für Chart-Daten"""
     ausgaben = load_data()
@@ -213,10 +284,10 @@ def chart_data():
     })
 
 if __name__ == '__main__':
-    # Template-Ordner erstellen falls nicht vorhanden
+    # Ordner erstellen
     os.makedirs('templates', exist_ok=True)
+    os.makedirs(BACKUP_DIR, exist_ok=True)
     
-    # Template-Datei ist bereits vorhanden - wird nicht überschrieben
     print("Camper Kosten-Tracker wird gestartet...")
     print("App läuft auf: http://localhost:2503")
     print("Über nginx erreichbar unter: https://gab-lab.at/tracker")

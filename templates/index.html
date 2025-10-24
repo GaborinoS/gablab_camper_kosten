@@ -28,6 +28,7 @@
         .anteil-controls { background: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 15px; }
         .anteil-slider { width: 100%; }
         .anteil-display { text-align: center; margin-top: 10px; font-weight: bold; }
+        .navbar-buttons { display: flex; gap: 10px; }
     </style>
 </head>
 <body>
@@ -36,10 +37,30 @@
             <a class="navbar-brand" href="{{ url_for('index') }}">
                 <i class="fas fa-rv me-2"></i>Camper Kosten-Tracker
             </a>
+            <div class="navbar-buttons ms-auto">
+                <a href="{{ url_for('backup') }}" class="btn btn-success btn-sm" onclick="return confirm('Backup jetzt erstellen?')">
+                    <i class="fas fa-save me-1"></i>Backup
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+            </div>
         </div>
     </nav>
 
     <div class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
         <div class="text-center mb-5">
             <h1 class="display-4">Camper Ausbau Budget</h1>
             <p class="lead">Gabsi & Sabi's Ausgaben-Verwaltung</p>
