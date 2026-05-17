@@ -293,4 +293,4 @@ if __name__ == '__main__':
     print("Über nginx erreichbar unter: https://gab-lab.at/tracker")
     print("Drücke Ctrl+C zum Beenden")
     
-    app.run(debug=False, host='0.0.0.0', port=2503)
+    app.run(debug=False, host='0.0.0.0', port=2504)

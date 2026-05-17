@@ -518,55 +518,5 @@
     "bezahlt_von": "Gabsi",
     "gabsi_anteil": 60,
     "sabi_anteil": 40
-  },
-  {
-    "id": 73,
-    "datum": "2026-05-17",
-    "beschreibung": "Fliegennetz Auslass",
-    "betrag": 6.0,
-    "kategorie": "Autoteile",
-    "bezahlt_von": "Gabsi",
-    "gabsi_anteil": 60,
-    "sabi_anteil": 40
-  },
-  {
-    "id": 74,
-    "datum": "2026-05-17",
-    "beschreibung": "Notausgangs Schilder",
-    "betrag": 10.0,
-    "kategorie": "Sonstiges",
-    "bezahlt_von": "Gabsi",
-    "gabsi_anteil": 60,
-    "sabi_anteil": 40
-  },
-  {
-    "id": 75,
-    "datum": "2026-05-17",
-    "beschreibung": "Bohrer und Dichtmittel Auslass",
-    "betrag": 30.0,
-    "kategorie": "Baumaterial",
-    "bezahlt_von": "Gabsi",
-    "gabsi_anteil": 60,
-    "sabi_anteil": 40
-  },
-  {
-    "id": 76,
-    "datum": "2026-05-17",
-    "beschreibung": "Schaniere und Schieber zusammengefasst",
-    "betrag": 25.0,
-    "kategorie": "Möbel & Stauraum",
-    "bezahlt_von": "Gabsi",
-    "gabsi_anteil": 60,
-    "sabi_anteil": 40
-  },
-  {
-    "id": 77,
-    "datum": "2026-05-17",
-    "beschreibung": "ECE R16 Zertifizierte LiTime Batterie",
-    "betrag": 280.0,
-    "kategorie": "Elektrik & Solar",
-    "bezahlt_von": "Gabsi",
-    "gabsi_anteil": 60,
-    "sabi_anteil": 40
   }
 ]

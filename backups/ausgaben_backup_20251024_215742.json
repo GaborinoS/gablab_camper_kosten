@@ -1,0 +1,222 @@
+[
+  {
+    "id": 9,
+    "datum": "2025-08-28",
+    "beschreibung": "Strafe Umweltplakette 🥲",
+    "betrag": 220.0,
+    "kategorie": "Sonstiges",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 21,
+    "datum": "2025-10-14",
+    "beschreibung": "Autobahn Vignette ",
+    "betrag": 12.4,
+    "kategorie": "Sonstiges",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 22,
+    "datum": "2025-10-23",
+    "beschreibung": "Klemmnieten und schrauben",
+    "betrag": 50.0,
+    "kategorie": "Werkzeug",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 23,
+    "datum": "2025-10-23",
+    "beschreibung": "Gummi Rückwand",
+    "betrag": 20.0,
+    "kategorie": "Isolation & Dämmung",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 24,
+    "datum": "2025-10-24",
+    "beschreibung": "Zwingen, Gurte, drahtaufsatz, lack",
+    "betrag": 18.0,
+    "kategorie": "Werkzeug",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 61,
+    "sabi_anteil": 39
+  },
+  {
+    "id": 25,
+    "datum": "2025-10-24",
+    "beschreibung": "Abgaspickerl",
+    "betrag": 60.0,
+    "kategorie": "Sonstiges",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 26,
+    "datum": "2025-10-24",
+    "beschreibung": "Putzzeug Action",
+    "betrag": 35.0,
+    "kategorie": "Putzmittel",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 27,
+    "datum": "2025-10-24",
+    "beschreibung": "Baustrahler",
+    "betrag": 35.0,
+    "kategorie": "Werkzeug",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 28,
+    "datum": "2025-10-24",
+    "beschreibung": "Autobahnpickerl",
+    "betrag": 12.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 29,
+    "datum": "2025-10-24",
+    "beschreibung": "Unterbodenversiegelung",
+    "betrag": 106.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 30,
+    "datum": "2025-10-24",
+    "beschreibung": "Öl und filter",
+    "betrag": 60.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 31,
+    "datum": "2025-10-24",
+    "beschreibung": "Osb,xps,Holz,pu",
+    "betrag": 155.0,
+    "kategorie": "Baumaterial",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 32,
+    "datum": "2025-10-24",
+    "beschreibung": "Windschutzscheibe",
+    "betrag": 410.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 33,
+    "datum": "2025-10-24",
+    "beschreibung": "Vinyl Boden + kleber",
+    "betrag": 104.0,
+    "kategorie": "Baumaterial",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 34,
+    "datum": "2025-10-24",
+    "beschreibung": "Sikaflex 3×",
+    "betrag": 31.0,
+    "kategorie": "Baumaterial",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 35,
+    "datum": "2025-10-24",
+    "beschreibung": "Fenster sabi",
+    "betrag": 215.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 0,
+    "sabi_anteil": 100
+  },
+  {
+    "id": 36,
+    "datum": "2025-10-24",
+    "beschreibung": "Fenster gabsi",
+    "betrag": 324.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 100,
+    "sabi_anteil": 0
+  },
+  {
+    "id": 37,
+    "datum": "2025-10-24",
+    "beschreibung": "Dichtstoff fenster",
+    "betrag": 55.0,
+    "kategorie": "Baumaterial",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 38,
+    "datum": "2025-10-24",
+    "beschreibung": "Afmaflex sabi",
+    "betrag": 100.0,
+    "kategorie": "Baumaterial",
+    "bezahlt_von": "Sabi",
+    "gabsi_anteil": 0,
+    "sabi_anteil": 100
+  },
+  {
+    "id": 39,
+    "datum": "2025-10-24",
+    "beschreibung": "Steckdose fi und sicherungsschrank",
+    "betrag": 65.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 40,
+    "datum": "2025-10-24",
+    "beschreibung": "Holz für fenster",
+    "betrag": 36.0,
+    "kategorie": "Baumaterial",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  },
+  {
+    "id": 41,
+    "datum": "2025-10-24",
+    "beschreibung": "Autobahn Vignette ",
+    "betrag": 12.0,
+    "kategorie": "Autoteile",
+    "bezahlt_von": "Gabsi",
+    "gabsi_anteil": 60,
+    "sabi_anteil": 40
+  }
+]
